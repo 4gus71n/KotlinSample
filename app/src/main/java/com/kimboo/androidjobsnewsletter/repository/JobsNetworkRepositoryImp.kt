@@ -4,7 +4,8 @@ import com.kimboo.androidjobsnewsletter.model.JobDetail
 import com.kimboo.androidjobsnewsletter.retrofit.responses.ApiJobDetailResponse
 import com.kimboo.androidjobsnewsletter.retrofit.services.AndroidJobsService
 import com.kimboo.androidjobsnewsletter.utils.rx.DataSource
-import com.kimboo.androidjobsnewsletter.utils.rx.ObservableUtils
+import com.kimboo.androidjobsnewsletter.utils.rx.EntityMapper
+import com.kimboo.androidjobsnewsletter.utils.rx.transformEntity
 import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -23,10 +24,10 @@ class JobsNetworkRepositoryImp(val service: AndroidJobsService) : JobsNetworkRep
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .map { r -> mapAndroidJobsIo(r) }
-                .compose( ObservableUtils.mapResponses(mapper))
+                .transformEntity(mapper)
     }
 
-    val mapper = object: ObservableUtils.Transformable<List<ApiJobDetailResponse>, List<JobDetail>> {
+    val mapper = object: EntityMapper<List<ApiJobDetailResponse>, List<JobDetail>> {
         override fun transformServerToModel(serverResponses:List<ApiJobDetailResponse>): List<JobDetail> {
             var result: MutableList<JobDetail> = ArrayList()
 
