@@ -1,5 +1,7 @@
 package com.kimboo.androidjobsnewsletter.ui.main
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -14,11 +16,12 @@ import com.kimboo.androidjobsnewsletter.model.JobDetail
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
+
 /**
  * Created by Agustin Tomas Larghi on 2/12/2017.
  * Email: agustin.tomas.larghi@gmail.com
  */
-class MainFragment: Fragment(), MainView  {
+class MainFragment: Fragment(), MainView, MainAdapterCallback  {
 
     //region Static code declaration
     companion object {
@@ -37,7 +40,15 @@ class MainFragment: Fragment(), MainView  {
     @Inject
     lateinit var presenter: MainPresenter
 
-    var adapter: MainAdapter = MainAdapter()
+    var adapter: MainAdapter = MainAdapter(this)
+    //endregion
+
+    //region MainAdapterCallback implementation
+    override fun onApplyClicked(url: String) {
+        val uri = Uri.parse(url)
+        val i = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(i)
+    }
     //endregion
 
     //region MainView implementation

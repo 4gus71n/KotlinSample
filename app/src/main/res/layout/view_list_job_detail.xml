@@ -3,7 +3,7 @@
     android:padding="@dimen/small_padding"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
         app:cardCornerRadius="2dp"
@@ -34,6 +34,8 @@
             <TextView
                 style="@style/Base.TextAppearance.AppCompat.Body1"
                 tools:text="Description"
+                android:maxLines="8"
+                android:ellipsize="end"
                 android:id="@+id/viewListJobDetailDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

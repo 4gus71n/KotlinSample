@@ -10,10 +10,19 @@ import com.kimboo.androidjobsnewsletter.utils.inflate
  * Created by Agustin Tomas Larghi on 4/12/2017.
  * Email: agustin.tomas.larghi@gmail.com
  */
-class MainAdapter(): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
+class MainAdapter(var callback: MainAdapterCallback? = null): RecyclerView.Adapter<MainAdapter.MainViewHolder>(), ListItemJobDetailViewCallback {
 
+    //region Variables declaration
     var items: MutableList<JobDetail> = ArrayList()
+    //endregion
 
+    //region ListItemJobDetailViewCallback implementation
+    override fun onApplyClicked(url: String) {
+        callback?.onApplyClicked(url)
+    }
+    //endregion
+
+    //region Adapter methods declaration
     fun setAllItems(jobs: List<JobDetail>) {
         items.clear()
         items.addAll(jobs)
@@ -23,20 +32,24 @@ class MainAdapter(): RecyclerView.Adapter<MainAdapter.MainViewHolder>() {
     override fun getItemCount() = items.size
 
     override fun onBindViewHolder(holder: MainViewHolder?, position: Int) {
-        holder?.updateView(items.get(position))
+        holder?.listItemJobDetailView?.item = items[position]
+        holder?.listItemJobDetailView?.callback = this
     }
 
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): MainViewHolder {
         return MainViewHolder(parent!!.inflate(R.layout.view_list_job_detail, false) as ListItemJobDetailView)
     }
+    //endregion
 
+    //region ViewHolder declaration
     class MainViewHolder(itemView: ListItemJobDetailView): RecyclerView.ViewHolder(itemView) {
-
         var listItemJobDetailView: ListItemJobDetailView = itemView
-
-        fun updateView(jobDetail: JobDetail) {
-            listItemJobDetailView.updateView(jobDetail)
-        }
-
     }
+    //endregion
 }
+
+//region Callback to view interface declaration
+interface MainAdapterCallback {
+    fun onApplyClicked(url: String)
+}
+//endregion

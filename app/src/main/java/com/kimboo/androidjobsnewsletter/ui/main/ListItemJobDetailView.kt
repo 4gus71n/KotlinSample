@@ -25,12 +25,21 @@ class ListItemJobDetailView : FrameLayout {
     constructor(context: Context, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes) {}
     //endregion
 
-    //region Methods declaration
-    fun updateView(jobDetail: JobDetail) {
-        viewListJobDetailTitle.text = jobDetail.title
-        viewListJobDetailDescription.text = jobDetail.description
-    }
+    //region Variables declaration
+    var callback: ListItemJobDetailViewCallback? = null
 
-
+    var item: JobDetail? = null
+        set(value) {
+            viewListJobDetailTitle.text = value?.title
+            viewListJobDetailDescription.text = value?.description
+            viewListJobDetailApplyButton.setOnClickListener { callback?.onApplyClicked(item!!.url) }
+        }
     //endregion
+
 }
+
+//region Callback to adapter interface declaration
+interface ListItemJobDetailViewCallback {
+    fun onApplyClicked(url: String)
+}
+//endregion

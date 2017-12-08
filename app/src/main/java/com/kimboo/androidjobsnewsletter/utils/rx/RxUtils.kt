@@ -2,6 +2,7 @@ package com.kimboo.androidjobsnewsletter.utils.rx
 
 import io.reactivex.Observable
 import io.reactivex.functions.Function
+import okhttp3.ResponseBody
 import org.reactivestreams.Subscriber
 import org.reactivestreams.Subscription
 import retrofit2.Response
@@ -10,14 +11,6 @@ import retrofit2.Response
  * Created by Agustin Tomas Larghi on 4/12/2017.
  * Email: agustin.tomas.larghi@gmail.com
  */
-
-/**
- * An EntityMapper is an interface that specifies how a server-side model is mapped into a
- * client-side model.
- */
-interface EntityMapper<SERVER, MODEL> {
-    fun transformServerToModel(serverEntity: SERVER): MODEL
-}
 
 /**
  * rx.Observable extended function that knows how to subscribe a DataSourceSubscriber
@@ -64,7 +57,7 @@ open class DataSourceSubscriber<MODEL>: Subscriber<DataSource<MODEL>> {
 /**
  * Takes a server-side Retrofit response and wraps it into a DataSource
  */
-fun <SERVER, RESPONSE : Response<SERVER>, MODEL> Observable<RESPONSE>.transformEntity(entityMapper: EntityMapper<SERVER, MODEL>): Observable<DataSource<MODEL>> {
+fun <SERVER, RESPONSE : Response<SERVER>, MODEL> Observable<RESPONSE>.transformEntity(func: ((SERVER) -> MODEL)): Observable<DataSource<MODEL>> {
     return map(object: Function<RESPONSE, DataSource<MODEL>> {
         override fun apply(t: RESPONSE): DataSource<MODEL> {
             if (t.isSuccessful) {
@@ -72,10 +65,10 @@ fun <SERVER, RESPONSE : Response<SERVER>, MODEL> Observable<RESPONSE>.transformE
                     when (t.code()) {
                         304 -> {
                             //Not modified
-                            return DataSource(entityMapper.transformServerToModel(t.body()!!), DataSource.SOURCE_HTTP_NOT_MODIFIED)
+                            return DataSource(func(t.body()!!), DataSource.SOURCE_HTTP_NOT_MODIFIED)
                         } else -> {
                         //Any other success code
-                        return DataSource(entityMapper.transformServerToModel(t.body()!!), DataSource.SOURCE_HTTP_SUCCESS)
+                        return DataSource(func(t.body()!!), DataSource.SOURCE_HTTP_SUCCESS)
                     }
                     }
                 } catch (e: Exception) {
@@ -86,4 +79,12 @@ fun <SERVER, RESPONSE : Response<SERVER>, MODEL> Observable<RESPONSE>.transformE
             }
         }
     })
+}
+
+/**
+ * Extended function that knows how to turn an HTML response into a Json response. Use this function if you want to perform webscrapping
+ * over a website and turn that into a json response as if you were directly hitting a server endpoint.
+ */
+fun <SERVER> Observable<Response<ResponseBody>>.transformHtmlResponseIntoJson(func: ((Response<ResponseBody>) -> (Response<SERVER>))): Observable<Response<SERVER>> {
+    return map { r -> func(r) }
 }
