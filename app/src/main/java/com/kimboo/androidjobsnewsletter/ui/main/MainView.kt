@@ -10,5 +10,7 @@ import com.kimboo.androidjobsnewsletter.ui.BaseView
 interface MainView : BaseView {
 
     fun onJobsFetched(jobs: List<JobDetail>)
+    fun onHideLoader()
+    fun onShowLoader()
 
 }

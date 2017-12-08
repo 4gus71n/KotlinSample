@@ -32,7 +32,7 @@ class ListItemJobDetailView : FrameLayout {
         set(value) {
             viewListJobDetailTitle.text = value?.title
             viewListJobDetailDescription.text = value?.description
-            viewListJobDetailApplyButton.setOnClickListener { callback?.onApplyClicked(item!!.url) }
+            viewListJobDetailApplyButton.setOnClickListener { callback?.onApplyClicked(value!!.url) }
         }
     //endregion
 

@@ -23,10 +23,13 @@ class MainPresenterImp(context: Context, var getJobs: GetJobs) : BasePresenter<M
     //region GetJobs.Callback implementation
     override fun onJobsFetched(jobs: List<JobDetail>) {
         jobsList = jobs
+
+        view?.onHideLoader()
         view?.onJobsFetched(jobs)
     }
 
     override fun onErrorFetchingJobs() {
+        view?.onHideLoader()
         view?.onShowError(getString(R.string.error_no_jobs))
     }
     //endregion
@@ -45,10 +48,11 @@ class MainPresenterImp(context: Context, var getJobs: GetJobs) : BasePresenter<M
     }
 
     override fun fetchJobs() {
+        view?.onShowLoader()
         getJobs.executeFromApi(this)
     }
 
     override fun getJobs() {
-        getJobs.executeFromApi(this)
+        TODO("Implement ROOM cache")
     }
 }

@@ -59,6 +59,14 @@ class MainFragment: Fragment(), MainView, MainAdapterCallback  {
     override fun onJobsFetched(jobs: List<JobDetail>) {
         adapter.setAllItems(jobs)
     }
+
+    override fun onHideLoader() {
+        fragmentMainSwipeRefreshLayout.isRefreshing = false
+    }
+
+    override fun onShowLoader() {
+        fragmentMainSwipeRefreshLayout.isRefreshing = true
+    }
     //endregion
 
     //region Fragment lifecycle methods declaration
@@ -83,7 +91,7 @@ class MainFragment: Fragment(), MainView, MainAdapterCallback  {
         fragmentMainRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         fragmentMainRecyclerView.adapter = adapter
 
-        presenter.getJobs()
+        presenter.fetchJobs() //TODO Call getJobs() here
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {
