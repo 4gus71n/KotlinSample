@@ -4,6 +4,7 @@ import com.kimboo.androidjobsnewsletter.model.JobDetail
 import com.kimboo.androidjobsnewsletter.repository.JobsNetworkRepository
 import com.kimboo.androidjobsnewsletter.utils.rx.DataSourceSubscriber
 import com.kimboo.androidjobsnewsletter.utils.rx.subscribe
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
@@ -14,7 +15,7 @@ import io.reactivex.schedulers.Schedulers
 class GetJobsInteractor(val repository: JobsNetworkRepository) : GetJobs {
 
     override fun executeFromApi(callback: GetJobs.Callback) {
-        repository.getJobs()
+        Observable.merge(repository.getJobsFromAndroidIo(), repository.getJobsFromRemoteIo(), repository.getJobsFromRemotelyAwesome())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribeOn(Schedulers.io())
             .subscribe(object: DataSourceSubscriber<List<JobDetail>>() {

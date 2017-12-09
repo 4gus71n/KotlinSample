@@ -23,10 +23,10 @@ class MainAdapter(var callback: MainAdapterCallback? = null): RecyclerView.Adapt
     //endregion
 
     //region Adapter methods declaration
-    fun setAllItems(jobs: List<JobDetail>) {
-        items.clear()
+    fun addAllItems(jobs: List<JobDetail>) {
+        val originalPos = items.size
         items.addAll(jobs)
-        notifyDataSetChanged()
+        notifyItemRangeInserted(originalPos, items.size - originalPos)
     }
 
     override fun getItemCount() = items.size

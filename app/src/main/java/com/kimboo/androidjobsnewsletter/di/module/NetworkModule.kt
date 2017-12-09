@@ -4,7 +4,6 @@ import android.content.Context
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.kimboo.androidjobsnewsletter.BuildConfig
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -27,7 +26,7 @@ import javax.net.ssl.X509TrustManager
  * Created by Agustin on 01/11/2016.
  */
 @Module
-class NetworkModule(private val mHost: String = BuildConfig.HOST) {
+class NetworkModule() {
 
     companion object {
         private val ENABLE_OKHTTP_CACHE = true
@@ -112,7 +111,7 @@ class NetworkModule(private val mHost: String = BuildConfig.HOST) {
     @Singleton
     protected fun provideRetrofit(okHttpClient: OkHttpClient, gson: Gson): Retrofit {
         return Retrofit.Builder()
-                .baseUrl(mHost)
+                .baseUrl("https://androidjobs.io")  //We need a default url
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(okHttpClient)

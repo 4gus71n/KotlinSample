@@ -57,7 +57,7 @@ class MainFragment: Fragment(), MainView, MainAdapterCallback  {
     }
 
     override fun onJobsFetched(jobs: List<JobDetail>) {
-        adapter.setAllItems(jobs)
+        adapter.addAllItems(jobs)
     }
 
     override fun onHideLoader() {
@@ -91,7 +91,7 @@ class MainFragment: Fragment(), MainView, MainAdapterCallback  {
         fragmentMainRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         fragmentMainRecyclerView.adapter = adapter
 
-        presenter.fetchJobs() //TODO Call getJobs() here
+        presenter.fetchJobs()
     }
 
     override fun onSaveInstanceState(outState: Bundle?) {

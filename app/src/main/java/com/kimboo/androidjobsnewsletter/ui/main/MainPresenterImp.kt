@@ -40,7 +40,10 @@ class MainPresenterImp(context: Context, var getJobs: GetJobs) : BasePresenter<M
 
     override fun onViewCreated(view: MainView, args: Bundle) {
         super.onViewCreated(view, args)
-        if (args.containsKey(ARG_BUNDLE_JOB_LIST)) jobsList = args.getParcelableArrayList(ARG_BUNDLE_JOB_LIST)
+        if (args.containsKey(ARG_BUNDLE_JOB_LIST)) {
+            jobsList = args.getParcelableArrayList(ARG_BUNDLE_JOB_LIST)
+            view?.onJobsFetched(jobsList)
+        }
     }
 
     override fun onSaveInstance(args: Bundle?) {

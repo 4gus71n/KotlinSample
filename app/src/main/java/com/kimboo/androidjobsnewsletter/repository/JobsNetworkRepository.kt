@@ -11,6 +11,10 @@ import io.reactivex.Observable
  */
 interface JobsNetworkRepository {
 
-    fun getJobs() : Observable<DataSource<List<JobDetail>>>
+    fun getJobsFromAndroidIo() : Observable<DataSource<List<JobDetail>>>
+
+    fun getJobsFromRemoteIo() : Observable<DataSource<List<JobDetail>>>
+
+    fun getJobsFromRemotelyAwesome() : Observable<DataSource<List<JobDetail>>>
 
 }
