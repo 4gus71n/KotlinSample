@@ -1,7 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="6dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppTheme">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/fragmentMainToolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:elevation="6dp"
+            app:layout_collapseMode="pin"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/AppTheme">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textColor="@android:color/white"
+                    android:layout_gravity="center"
+                    style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
+                    />
+
+                <com.kimboo.androidjobsnewsletter.ui.components.badgeimageview.BadgeImageView
+                    android:id="@+id/fragmentMainBadgeImageView"
+                    android:padding="@dimen/small_padding"
+                    app:srcCompat="@drawable/ic_share"
+                    app:badgeColor="@color/colorAccent"
+                    app:badgeTextColor="@color/colorWhite"
+                    app:badgeValue="0"
+                    app:badgePosition="topleft"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+        </android.support.v7.widget.Toolbar>
+
+    </android.support.design.widget.AppBarLayout>
+    
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/fragmentMainSwipeRefreshLayout"
         android:layout_width="match_parent"
@@ -14,4 +64,4 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</FrameLayout>
+</LinearLayout>

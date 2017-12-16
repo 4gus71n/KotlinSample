@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BadgeImageView">
+        <attr name="badgeTextSize" format="dimension" />
+        <attr name="badgeValue" format="integer" />
+        <attr name="badgeColor" format="color" />
+        <attr name="badgeTextColor" format="color" />
+        <attr name="displayZeroValue" format="boolean" />
+        <attr name="badgePosition" format="enum">
+            <enum name="topleft" value="0"/>
+            <enum name="topright" value="1"/>
+            <enum name="bottomright" value="2"/>
+            <enum name="bottomleft" value="3"/>
+        </attr>
+    </declare-styleable>
+
+    <dimen name="badgeimageview_default_text_size">10sp</dimen>
+
+</resources>

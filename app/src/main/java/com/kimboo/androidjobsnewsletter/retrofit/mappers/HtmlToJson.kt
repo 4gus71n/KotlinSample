@@ -12,6 +12,10 @@ import java.net.URL
  */
 class HtmlToJson {
 
+    fun mapGoRemote(response: Response<ResponseBody>): Response<List<ApiJobDetailResponse>> {
+        TODO("https://goremote.io/search/android")
+    }
+
     fun mapRemotelyAwesome(response: Response<ResponseBody>): Response<List<ApiJobDetailResponse>> {
         var result: MutableList<ApiJobDetailResponse> = ArrayList()
 

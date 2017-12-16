@@ -14,11 +14,21 @@ class MainAdapter(var callback: MainAdapterCallback? = null): RecyclerView.Adapt
 
     //region Variables declaration
     var items: MutableList<JobDetail> = ArrayList()
+    var pinnedItems: MutableList<JobDetail>  = ArrayList()
     //endregion
 
     //region ListItemJobDetailViewCallback implementation
     override fun onApplyClicked(url: String) {
         callback?.onApplyClicked(url)
+    }
+
+    override fun onPinnedItemClicked(jobDetail: JobDetail?, markedAsPinned: Boolean) {
+        if (markedAsPinned) {
+            pinnedItems.add(jobDetail!!)
+        } else {
+            pinnedItems.remove(jobDetail)
+        }
+        callback?.onPinnedItemClicked(jobDetail, markedAsPinned, pinnedItems.size)
     }
     //endregion
 
@@ -33,6 +43,7 @@ class MainAdapter(var callback: MainAdapterCallback? = null): RecyclerView.Adapt
 
     override fun onBindViewHolder(holder: MainViewHolder?, position: Int) {
         holder?.listItemJobDetailView?.item = items[position]
+        holder?.listItemJobDetailView?.isMarkedAsPinned = pinnedItems.contains(items[position])
         holder?.listItemJobDetailView?.callback = this
     }
 
@@ -51,5 +62,6 @@ class MainAdapter(var callback: MainAdapterCallback? = null): RecyclerView.Adapt
 //region Callback to view interface declaration
 interface MainAdapterCallback {
     fun onApplyClicked(url: String)
+    fun onPinnedItemClicked(jobDetail: JobDetail?, markedAsPinned: Boolean, size: Int)
 }
 //endregion

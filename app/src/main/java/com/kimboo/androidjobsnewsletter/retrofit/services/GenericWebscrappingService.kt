@@ -21,4 +21,7 @@ interface GenericWebscrappingService {
     @GET
     fun getJobsFromRemotelyAwesome(@Url url: String = "https://www.remotelyawesomejobs.com/tags/android"): Observable<Response<ResponseBody>>
 
+    @GET
+    fun getJobsFromGoRemote(@Url url: String = "https://goremote.io/search/android"): Observable<Response<ResponseBody>>
+
 }

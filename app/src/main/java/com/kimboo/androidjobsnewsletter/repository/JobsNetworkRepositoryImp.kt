@@ -16,6 +16,10 @@ import io.reactivex.schedulers.Schedulers
  */
 class JobsNetworkRepositoryImp(val service: GenericWebscrappingService) : JobsNetworkRepository {
 
+    //TODO https://www.simplyhired.com/search?q=remote+android+developer&job=gGroTQrR_EPUDG-v-LU9gMjVwhUBOEjr8bzyjpe2nlBDCuj5seQAZQ
+    //https://stackoverflow.com/jobs?r=true&rs=1&sort=p
+    //https://angel.co/job-collections/remote
+
     override fun getJobsFromAndroidIo(): Observable<DataSource<List<JobDetail>>> {
         return service.getJobsFromAndroidIo()
                 .subscribeOn(Schedulers.io())
@@ -34,6 +38,13 @@ class JobsNetworkRepositoryImp(val service: GenericWebscrappingService) : JobsNe
         return service.getJobsFromRemotelyAwesome()
                 .subscribeOn(Schedulers.io())
                 .transformHtmlResponseIntoJson(HtmlToJson()::mapRemotelyAwesome)
+                .transformEntity(JobsMapper()::fromServerToModel)
+    }
+
+    override fun getJobsFromGoRemote(): Observable<DataSource<List<JobDetail>>> {
+        return service.getJobsFromGoRemote()
+                .subscribeOn(Schedulers.io())
+                .transformHtmlResponseIntoJson(HtmlToJson()::mapGoRemote)
                 .transformEntity(JobsMapper()::fromServerToModel)
     }
 }

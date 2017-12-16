@@ -3,8 +3,10 @@ package com.kimboo.androidjobsnewsletter.ui.main
 import android.annotation.TargetApi
 import android.content.Context
 import android.os.Build
+import android.text.Html
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import com.kimboo.androidjobsnewsletter.R
 import com.kimboo.androidjobsnewsletter.model.JobDetail
 import kotlinx.android.synthetic.main.view_list_job_detail.view.*
 
@@ -26,14 +28,36 @@ class ListItemJobDetailView : FrameLayout {
     //endregion
 
     //region Variables declaration
+    var isMarkedAsPinned: Boolean = false
+        set(value) {
+            field = value
+            if (value) {
+                viewListJobDetailPinIcon.setImageResource(R.drawable.ic_pinon)
+            } else {
+                viewListJobDetailPinIcon.setImageResource(R.drawable.ic_pinoff)
+            }
+        }
+
     var callback: ListItemJobDetailViewCallback? = null
 
     var item: JobDetail? = null
         set(value) {
+            field = value
             viewListJobDetailTitle.text = value?.title
-            viewListJobDetailDescription.text = value?.description
+            viewListJobDetailDescription.text = Html.fromHtml(value?.description)
             viewListJobDetailApplyButton.setOnClickListener { callback?.onApplyClicked(value!!.url) }
+            viewListJobDetailPinIcon.setOnClickListener({ onPinnedItemClicked() })
         }
+    //endregion
+
+    //region Methods declaration
+
+    private fun onPinnedItemClicked() {
+        isMarkedAsPinned = !isMarkedAsPinned
+        callback?.onPinnedItemClicked(item, isMarkedAsPinned)
+
+    }
+
     //endregion
 
 }
@@ -41,5 +65,6 @@ class ListItemJobDetailView : FrameLayout {
 //region Callback to adapter interface declaration
 interface ListItemJobDetailViewCallback {
     fun onApplyClicked(url: String)
+    fun onPinnedItemClicked(jobDetail: JobDetail?, markedAsPinned: Boolean)
 }
 //endregion

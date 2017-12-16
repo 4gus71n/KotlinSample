@@ -2,4 +2,5 @@
     <string name="app_name">AndroidJobsNewsletter</string>
     <string name="error_no_jobs">Something went wrong while fetching the jobs. Please try again later.</string>
     <string name="view_list_job_detal_apply">Apply</string>
+    <string name="share_using">Share using</string>
 </resources>
